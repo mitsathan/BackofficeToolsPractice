@@ -23,7 +23,12 @@ namespace Api.Practices
 		public string Email { get; private set; } = default!;
 
 		private string Teststr { get; set; }
-		
+
+		public Customer()
+		{
+			
+		}
+
 		public Customer(long id, string firstName, string lastName, string email)
 		{
 			Id = id;

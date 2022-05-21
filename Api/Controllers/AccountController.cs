@@ -1,5 +1,8 @@
-﻿using Api.Dto;
+﻿using Api.DB;
+using Api.Dto;
+using Api.Practices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers
 {
@@ -7,7 +10,14 @@ namespace Api.Controllers
 	[ApiController]
 	public class AccountController : ControllerBase
 	{
+		private BOContext _boContext;
+
 		// GET: api/<ValuesController>
+		public AccountController()
+		{
+			_boContext = new BOContext();
+		}
+
 		[HttpGet]
 		public IEnumerable<string> GetAll()
 		{
@@ -17,9 +27,19 @@ namespace Api.Controllers
 		// GET api/<ValuesController>/5
 		[HttpGet]
 		[Route("{id}")]
-		public string GetById(int id)
+		public Account GetById(int id)
 		{
-			return "value";
+			try
+			{
+				return _boContext.Accounts
+					.Include(x=>x.Pet)
+					.First(x => x.Id == id);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				return new Account();
+			}
 		}
 
 		// POST api/<ValuesController>
@@ -27,8 +47,17 @@ namespace Api.Controllers
 		[Route("create")]
 		public void Create([FromBody] Account account)
 		{
-			//todo: persist account
-			throw new NotImplementedException();
+			//todo: hide Ids from request
+			try
+			{
+				_boContext.Add(account);
+				_boContext.SaveChanges();
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				throw;
+			}
 		}
 
 		// POST api/<ValuesController>
