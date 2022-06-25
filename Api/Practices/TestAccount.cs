@@ -9,7 +9,7 @@ namespace Api.Practices
 		public string Lastname { get; set; } = default!;
 		public string Email { get; set; } = default!;
 
-		public string GetAccount()
+		public string GetFullName()
 		{
 			return Firstname;
 		}
@@ -23,12 +23,7 @@ namespace Api.Practices
 		public string Email { get; private set; } = default!;
 
 		private string Teststr { get; set; }
-
-		public Customer()
-		{
-			
-		}
-
+		
 		public Customer(long id, string firstName, string lastName, string email)
 		{
 			Id = id;
@@ -45,7 +40,7 @@ namespace Api.Practices
 
 	public interface IAccount
 	{
-		string GetAccount();
+		string GetFullName();
 	}
 
 	public class Test
@@ -63,7 +58,7 @@ namespace Api.Practices
 		
 		public void TestAccount(IAccount account)
 		{
-			var s = account.GetAccount();
+			var s = account.GetFullName();
 		}
 	}
 }
