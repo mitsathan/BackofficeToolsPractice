@@ -39,6 +39,7 @@ namespace Api.Dto
 		public static Account GetById(this List<Account> customers, int id)
 		{
 			return customers.First(x => x.Id == id);
+			int Test=0;
 		}
 
 		public static Account GetByFirstName(this List<Account> customers, string firstName)
